@@ -4,7 +4,7 @@ require('dotenv').config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.27",
+  solidity: "0.8.26",
   networks: {
     // sepolia: {
     //   url: process.env.SEPOLIA_URL,
@@ -21,12 +21,19 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
       chainId: 84532,
       blockConfirmations: 2,
+    },
+    zircuitSepolia: {
+      url: process.env.ZIRCUIT_SEPOLIA_URL,
+      accounts: [process.env.PRIVATE_KEY],
+      chainId: 48900, // Replace with the correct chain ID for Zircuit Sepolia
+      blockConfirmations: 2,
     }
   },
   etherscan: {
     apiKey: {
       scrollSepolia: process.env.SCROLL_SEPOLIA_API_KEY,
       baseSepolia: process.env.BASE_SEPOLIA_API_KEY,
+      zircuitSepolia: process.env.ZIRCUIT_SEPOLIA_API_KEY,
     },
   
   customChains: [
@@ -45,6 +52,14 @@ module.exports = {
           apiURL: "https://api-sepolia.basescan.org/api",
           browserURL: "https://sepolia.basescan.org/",
         },
+    },
+    {
+      network: "zircuitSepolia",
+      chainId: 123456, // Replace with the correct chain ID for Zircuit Sepolia
+      urls: {
+        apiURL: "https://zircuit1.p2pify.com/", // Replace with the correct API URL for Zircuit Sepolia
+        browserURL: "https://explorer.zircuit.com", // Replace with the correct browser URL for Zircuit Sepolia
+      },
     },
   ],
 },

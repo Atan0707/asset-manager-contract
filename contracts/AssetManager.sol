@@ -24,6 +24,7 @@ contract AssetManager {
         string ic;
         string contactNo;
         string Address;
+        string relationship;
     }
 
     Properties[] public properties;
@@ -37,7 +38,7 @@ contract AssetManager {
 
     constructor() {
         owner = msg.sender;
-        customerIdCounter = 1; // Start IDs from 1 to avoid confusion with default 0
+        customerIdCounter = 0; // Start IDs from 0
     }
 
     modifier onlyOwner() {
@@ -60,7 +61,7 @@ contract AssetManager {
     }
 
     modifier customerExists(uint256 customerId) {
-        require(customerId > 0 && customerId < customerIdCounter, "Customer does not exist.");
+        require(bytes(customers[customerId].name).length != 0, "Customer does not exist.");
         _;
     }
 
@@ -91,8 +92,7 @@ contract AssetManager {
         string memory title, 
         string memory details, 
         string memory gambar
-    ) public onlyAdminOrOwner {
-        require(customerId > 0 && customerId < customerIdCounter, "Invalid customer ID.");
+    ) public onlyAdminOrOwner customerExists(customerId) {
         Properties memory newProperty = Properties(title, details, gambar);
         customerProperties[customerId].push(newProperty);
     }
@@ -103,10 +103,10 @@ contract AssetManager {
         string memory name, 
         string memory ic, 
         string memory contactNo, 
-        string memory Address
-    ) public onlyAdminOrOwner {
-        require(customerId > 0 && customerId < customerIdCounter, "Invalid customer ID.");
-        Inheritor memory newInheritor = Inheritor(name, ic, contactNo, Address);
+        string memory Address,
+        string memory relationship
+    ) public onlyAdminOrOwner customerExists(customerId) {
+        Inheritor memory newInheritor = Inheritor(name, ic, contactNo, Address, relationship);
         customerInheritors[customerId].push(newInheritor);
     }
 
@@ -186,5 +186,8 @@ contract AssetManager {
     function getAllCustomers() public view returns (CustomerData[] memory) {
         return customers;
     }
+
+    receive() external payable {} // to support receiving ETH by default
+    fallback() external payable {}
 
 }
