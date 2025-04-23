@@ -4,7 +4,16 @@ require('dotenv').config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.26",
+  solidity: {
+    version: "0.8.26",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 100,
+      },
+      viaIR: true,
+    }
+  },
   networks: {
     // sepolia: {
     //   url: process.env.SEPOLIA_URL,
@@ -27,6 +36,12 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
       chainId: 48900, // Replace with the correct chain ID for Zircuit Sepolia
       blockConfirmations: 2,
+    },
+    citreaTestnet: {
+      url: process.env.CITREA_TESTNET_URL,
+      accounts: [process.env.PRIVATE_KEY],
+      chainId: 5115,
+      blockConfirmations: 2,
     }
   },
   etherscan: {
@@ -34,6 +49,7 @@ module.exports = {
       scrollSepolia: process.env.SCROLL_SEPOLIA_API_KEY,
       baseSepolia: process.env.BASE_SEPOLIA_API_KEY,
       zircuitSepolia: process.env.ZIRCUIT_SEPOLIA_API_KEY,
+      citreaTestnet: process.env.CITREA_TESTNET_API_KEY,
     },
   
   customChains: [
@@ -61,6 +77,14 @@ module.exports = {
         browserURL: "https://explorer.zircuit.com", // Replace with the correct browser URL for Zircuit Sepolia
       },
     },
+    {
+      network: "citreaTestnet",
+      chainId: 5115,
+      urls: {
+        apiURL: "https://rpc.testnet.citrea.xyz",
+        browserURL: "https://explorer.testnet.citrea.xyz",
+      },
+    }
   ],
 },
   sourcify: {

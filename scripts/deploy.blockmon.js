@@ -2,11 +2,11 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("Deploying contracts with the account:", deployer.address);
 
-    const SupplyChainNFT = await ethers.getContractFactory("SupplyChainNFT");
-    const supplyChainNFT = await SupplyChainNFT.deploy();
-    await supplyChainNFT.waitForDeployment();
+    const Blockmon = await ethers.getContractFactory("Blockmon");
+    const blockmon = await Blockmon.deploy();
+    await blockmon.waitForDeployment();
 
-    console.log("SupplyChainNFT contract deployed to:", await supplyChainNFT.address);
+    console.log("Blockmon contract deployed to:", blockmon.target);
 }
 
 main()
